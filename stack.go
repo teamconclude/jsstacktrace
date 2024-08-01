@@ -2,12 +2,12 @@ package jsstacktrace
 
 import "strings"
 
-type Stack []StackFrame
+type StackTrace []StackFrame
 
-func ParseStackTrace(s string) Stack {
+func ParseStackTrace(s string) StackTrace {
 	lines := strings.Split(s, "\n")
 
-	stack := make(Stack, 0, len(lines))
+	stack := make(StackTrace, 0, len(lines))
 	for _, line := range lines {
 		if sf := StackFrameFromString(line); sf != nil {
 			stack = append(stack, *sf)
@@ -17,7 +17,7 @@ func ParseStackTrace(s string) Stack {
 	return stack
 }
 
-func (s Stack) String() string {
+func (s StackTrace) String() string {
 	var b strings.Builder
 	for i, sf := range s {
 		b.WriteString(sf.String())

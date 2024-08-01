@@ -50,19 +50,19 @@ func (m *JSMap) getMapFile(mapURL string) (*sourcemap.Consumer, error) {
 	return smap, nil
 }
 
-func (m *JSMap) ConvertFrame(stackFrame *StackFrame) StackFrame {
+func (m *JSMap) ConvertFrame(stackFrame StackFrame) StackFrame {
 	if stackFrame.Url == "" {
-		return *stackFrame
+		return stackFrame
 	}
 
 	mapFile, err := m.getMapFile(stackFrame.Url)
 	if err != nil {
-		return *stackFrame
+		return stackFrame
 	}
 
 	file, fn, line, column, ok := mapFile.Source(stackFrame.Line, stackFrame.Column)
 	if !ok {
-		return *stackFrame
+		return stackFrame
 	}
 	if fn == "" {
 		fn = stackFrame.Function
@@ -74,4 +74,16 @@ func (m *JSMap) ConvertFrame(stackFrame *StackFrame) StackFrame {
 		Function: fn,
 	}
 
+}
+
+func (m *JSMap) ConvertStackTrace(stackTrace StackTrace) StackTrace {
+	var convertedStackTrace StackTrace
+	for _, frame := range stackTrace {
+		convertedStackTrace = append(convertedStackTrace, m.ConvertFrame(frame))
+	}
+	return convertedStackTrace
+}
+
+func (m *JSMap) ConvertStackTraceString(stackTrace string) string {
+	return m.ConvertStackTrace(ParseStackTrace(stackTrace)).String()
 }
