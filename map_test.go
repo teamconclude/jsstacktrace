@@ -11,7 +11,7 @@ func TestMap(t *testing.T) {
 
 	jsmap := NewJSMap("testdata")
 
-	convertedFrame := jsmap.ConvertFrame(frame)
+	convertedFrame := jsmap.ConvertFrame(*frame)
 
 	log.Printf("%+v", convertedFrame)
 
