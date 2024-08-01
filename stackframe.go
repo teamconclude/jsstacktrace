@@ -6,14 +6,14 @@ import (
 )
 
 type StackFrame struct {
-	File     string
+	Url      string
 	Line     int
 	Column   int
 	Function string
 }
 
 func (sf *StackFrame) String() string {
-	return "at " + sf.Function + " (" + sf.File + ":" + strconv.Itoa(sf.Line) + ":" + strconv.Itoa(sf.Column) + ")"
+	return "at " + sf.Function + " (" + sf.Url + ":" + strconv.Itoa(sf.Line) + ":" + strconv.Itoa(sf.Column) + ")"
 }
 
 // Stack trace formats:
@@ -35,5 +35,5 @@ func StackFrameFromString(s string) *StackFrame {
 	}
 	line, _ := strconv.Atoi(matches[3])
 	column, _ := strconv.Atoi(matches[4])
-	return &StackFrame{Function: matches[1], File: matches[2], Line: line, Column: column}
+	return &StackFrame{Function: matches[1], Url: matches[2], Line: line, Column: column}
 }

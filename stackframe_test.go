@@ -13,7 +13,7 @@ func TestStackFrameFromString(t *testing.T) {
 			input: "renderWithHooks@http://localhost:8080/dist/js/chunk-M6AOQWLO.js:12217:35",
 			want: &StackFrame{
 				Function: "renderWithHooks",
-				File:     "http://localhost:8080/dist/js/chunk-M6AOQWLO.js",
+				Url:      "http://localhost:8080/dist/js/chunk-M6AOQWLO.js",
 				Line:     12217,
 				Column:   35,
 			},
@@ -22,7 +22,7 @@ func TestStackFrameFromString(t *testing.T) {
 			input: "    at renderWithHooks (http://localhost:8080/dist/js/chunk-M6AOQWLO.js:12217:35)",
 			want: &StackFrame{
 				Function: "renderWithHooks",
-				File:     "http://localhost:8080/dist/js/chunk-M6AOQWLO.js",
+				Url:      "http://localhost:8080/dist/js/chunk-M6AOQWLO.js",
 				Line:     12217,
 				Column:   35,
 			},
