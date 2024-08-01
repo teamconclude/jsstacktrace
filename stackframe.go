@@ -13,7 +13,7 @@ type StackFrame struct {
 }
 
 func (sf *StackFrame) String() string {
-	return sf.Function + " @ " + sf.File + ":" + strconv.Itoa(sf.Line) + ":" + strconv.Itoa(sf.Column)
+	return "at " + sf.Function + " (" + sf.File + ":" + strconv.Itoa(sf.Line) + ":" + strconv.Itoa(sf.Column) + ")"
 }
 
 // Stack trace formats:
