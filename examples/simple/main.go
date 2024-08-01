@@ -1,13 +1,3 @@
-# jsstacktrace
-
-jsstacktrace converts stack traces generated inside the browser using locally available map files
-
-This makes it easy to convert log data containing stack traces of minimized/packaged JS to the contain
-the correct line number and source file information on your server.
-
-## Usage
-
-```Go
 package main
 
 import (
@@ -36,6 +26,3 @@ func main() {
 
 	fmt.Print(mappedStack)
 }
-```
-
-
