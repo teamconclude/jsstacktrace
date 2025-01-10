@@ -27,6 +27,24 @@ func TestStackFrameFromString(t *testing.T) {
 				Column:   35,
 			},
 		},
+		{
+			input: "at .LT ( http://localhost:8080/dist/js/chunk-M6AOQWLO.js:12217:35 )",
+			want: &StackFrame{
+				Function: ".LT",
+				Url:      "http://localhost:8080/dist/js/chunk-M6AOQWLO.js",
+				Line:     12217,
+				Column:   35,
+			},
+		},
+		{
+			input: "at .LT ( http://localhost:8080/dist/js/chunk-M6AOQWLO.js:12217 )",
+			want: &StackFrame{
+				Function: ".LT",
+				Url:      "http://localhost:8080/dist/js/chunk-M6AOQWLO.js",
+				Line:     12217,
+				Column:   0,
+			},
+		},
 	}
 
 	for _, tt := range tests {

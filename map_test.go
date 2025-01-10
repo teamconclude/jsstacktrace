@@ -8,6 +8,10 @@ import (
 func TestMap(t *testing.T) {
 
 	frame := StackFrameFromString("    at EditLink (http://localhost:8080/dist/js/chunk-XJD7LI46.js:359:9)")
+	if frame == nil {
+		t.Errorf("StackFrameFromString failed")
+		return
+	}
 
 	jsmap := NewJSMap("testdata")
 
