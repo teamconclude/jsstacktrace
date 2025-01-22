@@ -34,7 +34,7 @@ func StackFrameFromString(s string) *StackFrame {
 	} else if stackFrameChrome.MatchString(s) {
 		matches = stackFrameChrome.FindStringSubmatch(s)
 	} else {
-		return nil
+		return &StackFrame{Function: "JSStackframe: not converted: ", Url: s, Line: 0, Column: 0}
 	}
 	function := matches[1]
 	location := matches[2]
