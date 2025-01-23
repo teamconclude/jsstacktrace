@@ -14,7 +14,19 @@ type StackFrame struct {
 }
 
 func (sf *StackFrame) String() string {
-	result := "at " + sf.Function + " (" + sf.Url
+	result := "at "
+	if sf.Function != "" {
+		result += sf.Function
+	} else {
+		result += "<anonymous>"
+	}
+	result += " ("
+	if sf.Url != "" {
+		result += sf.Url
+	} else {
+		result += "<unknown file>"
+	}
+
 	if sf.Line >= 0 {
 		result += ":" + strconv.Itoa(sf.Line)
 		if sf.Column >= 0 {
