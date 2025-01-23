@@ -1,7 +1,6 @@
 package jsstacktrace
 
 import (
-	"log"
 	"regexp"
 	"strconv"
 	"strings"
@@ -57,7 +56,7 @@ func parseLocation(location string) (string, int, int) {
 }
 
 func parseFrameChrome(s string) *StackFrame {
-	log.Default().Println("parseFrameChrome: ", s)
+	// log.Default().Println("parseFrameChrome: ", s)
 	matches := stackFrameChrome.FindStringSubmatch(s)
 	loc := s
 	function := ""
@@ -87,13 +86,13 @@ func parseFrameSafari(f string, l string) *StackFrame {
 
 func StackFrameFromString(s string) *StackFrame {
 	// check which format the stack trace has
-	log.Default().Println("StackFrameFromString: ", s)
+	// log.Default().Println("StackFrameFromString: ", s)
 	if chromeFormat.MatchString(s) {
-		log.Default().Println("StackFrameFromString: chromeFormat")
+		// log.Default().Println("StackFrameFromString: chromeFormat")
 		matches := chromeFormat.FindStringSubmatch(s)
 		return parseFrameChrome(matches[1])
 	} else if safariFormat.MatchString(s) {
-		log.Default().Println("StackFrameFromString: safariFormat")
+		// log.Default().Println("StackFrameFromString: safariFormat")
 		matches := safariFormat.FindStringSubmatch(s)
 		return parseFrameSafari(matches[1], matches[2])
 	} else {
