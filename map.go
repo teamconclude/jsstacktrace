@@ -51,6 +51,9 @@ func (m *JSMap) getMapFile(mapURL string) (*sourcemap.Consumer, error) {
 }
 
 func (m *JSMap) ConvertFrame(stackFrame StackFrame) StackFrame {
+	if stackFrame.Other != "" {
+		return stackFrame
+	}
 	if stackFrame.Url == "" {
 		return stackFrame
 	}

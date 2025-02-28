@@ -47,11 +47,11 @@ func TestStackFrameFromString(t *testing.T) {
 		},
 		{
 			input: "Error",
-			want:  nil,
+			want:  &StackFrame{Other: "Error"},
 		},
 		{
 			input: "Error: something went wrong",
-			want:  nil,
+			want:  &StackFrame{Other: "Error: something went wrong"},
 		},
 		{
 			input: "   at <anonymous>",

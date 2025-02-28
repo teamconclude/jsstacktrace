@@ -11,9 +11,13 @@ type StackFrame struct {
 	Line     int
 	Column   int
 	Function string
+	Other    string // used when the line is not a valid stack frame
 }
 
 func (sf *StackFrame) String() string {
+	if sf.Other != "" {
+		return sf.Other
+	}
 	result := "at "
 	if sf.Function != "" {
 		result += sf.Function
@@ -108,6 +112,6 @@ func StackFrameFromString(s string) *StackFrame {
 		matches := safariFormat.FindStringSubmatch(s)
 		return parseFrameSafari(matches[1], matches[2])
 	} else {
-		return nil
+		return &StackFrame{Other: s}
 	}
 }
