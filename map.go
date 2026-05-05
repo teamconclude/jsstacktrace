@@ -1,6 +1,9 @@
 package jsstacktrace
 
 import (
+	"bytes"
+	"compress/gzip"
+	"io"
 	"net/url"
 	"os"
 
@@ -23,22 +26,33 @@ func (m *JSMap) getMapFile(mapURL string) (*sourcemap.Consumer, error) {
 	// remove the protocol and domain from the URL and prefix it with the baseDir
 	// to make it relative to the baseDir
 
-	url, err := url.Parse(mapURL)
+	u, err := url.Parse(mapURL)
 	if err != nil {
 		return nil, err
 	}
 
-	path := url.Path
-
-	if c, ok := m.mapFiles[url.Path]; ok {
+	if c, ok := m.mapFiles[u.Path]; ok {
 		return c, nil
 	}
 
-	filename := m.baseDir + path + ".map"
+	filename := m.baseDir + u.Path + ".map"
 
 	data, err := os.ReadFile(filename)
 	if err != nil {
-		return nil, err
+		// Production builds may pre-gzip source maps and delete the original.
+		gzData, gzErr := os.ReadFile(filename + ".gz")
+		if gzErr != nil {
+			return nil, err
+		}
+		zr, zerr := gzip.NewReader(bytes.NewReader(gzData))
+		if zerr != nil {
+			return nil, zerr
+		}
+		defer zr.Close()
+		data, err = io.ReadAll(zr)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	smap, err := sourcemap.Parse(mapURL, data)
@@ -46,7 +60,7 @@ func (m *JSMap) getMapFile(mapURL string) (*sourcemap.Consumer, error) {
 		return nil, err
 	}
 
-	m.mapFiles[mapURL] = smap
+	m.mapFiles[u.Path] = smap
 	return smap, nil
 }
 
